@@ -1,4 +1,5 @@
 const userModel = require('../models/user.model');
+const foodPartnerModel = require('../models/foodpartner.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -85,6 +86,20 @@ async function logoutUser(req, res){
     res.status(200).json({
         message: "User logged out successfully"
     }); 
+}
+
+async function registerFoodPartner(req, res) {
+    const {name, email, password} = req.body;
+
+    const isAccountAlreadyExists = await foodPartnerModel.findOne({
+        email
+    })
+
+    if(isAccountAlreadyExists){
+        return res.status(400).json({
+            message: "Food Partner Account already exists"
+        })
+    }
 }
 
 module.exports = {
